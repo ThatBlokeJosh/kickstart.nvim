@@ -41,14 +41,11 @@ Clone kickstart.nvim:
 
 ```sh
 # on Linux and Mac
-git clone https://github.com/nvim-lua/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+git clone https://github.com/ThatBlokeJosh/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
 ```
 
-
-```
-# on Windows (cmd)
-git clone https://github.com/nvim-lua/kickstart.nvim.git %userprofile%\AppData\Local\nvim\ 
-```
+# on Windows
+git clone https://github.com/ThatBlokeJosh/kickstart.nvim.git %userprofile%\AppData\Local\nvim\
 
 ```
 # on Windows (powershell)

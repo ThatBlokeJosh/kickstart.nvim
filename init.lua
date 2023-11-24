@@ -43,7 +43,6 @@ P.S. You can delete this when you're done too. It's your config now :)
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
-
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    https://github.com/folke/lazy.nvim
 --    `:help lazy.nvim.txt` for more info
@@ -63,6 +62,7 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure plugins ]]
 -- NOTE: Here is where you install your plugins.
 --  You can configure plugins using the `config` key.
+--
 --
 --  You can also configure plugins after the setup call,
 --    as they will be available in your neovim runtime.
@@ -151,8 +151,7 @@ require('lazy').setup({
       end,
     },
   },
-
-  {
+ {
     -- Theme inspired by Atom
     'navarasu/onedark.nvim',
     priority = 1000,
@@ -160,7 +159,6 @@ require('lazy').setup({
       vim.cmd.colorscheme 'onedark'
     end,
   },
-
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -229,13 +227,13 @@ require('lazy').setup({
   --    Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   --
   --    For additional information see: https://github.com/folke/lazy.nvim#-structuring-your-plugins
-  -- { import = 'custom.plugins' },
+{ import = 'custom.plugins' },
 }, {})
-
+require "evil"
+vim.cmd('set cmdheight=0')
 -- [[ Setting options ]]
 -- See `:help vim.o`
 -- NOTE: You can change these options as you wish!
-
 -- Set highlight on search
 vim.o.hlsearch = false
 
@@ -441,6 +439,11 @@ vim.defer_fn(function()
   }
 end, 0)
 
+-- Diagnostic keymaps
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+
 -- [[ Configure LSP ]]
 --  This function gets run when an LSP connects to a particular buffer.
 local on_attach = function(_, bufnr)
@@ -550,6 +553,24 @@ mason_lspconfig.setup_handlers {
     }
   end,
 }
+vim.opt.termguicolors = true
+local bufferline = require("bufferline")
+bufferline.setup{
+  options = {
+    offsets = {
+        {
+            filetype = "NvimTree",
+            text = "Virginity",
+            highlight = "Directory",
+            seperator = true,
+        },
+    },
+}
+}
+
+require("nvim-tree").setup {}
+
+require("veil").setup {}
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`
