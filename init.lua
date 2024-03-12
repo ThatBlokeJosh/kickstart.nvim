@@ -151,14 +151,6 @@ require('lazy').setup({
       end,
     },
   },
- {
-    -- Theme inspired by Atom
-    'navarasu/onedark.nvim',
-    priority = 1000,
-    config = function()
-      vim.cmd.colorscheme 'onedark'
-    end,
-  },
   {
     -- Set lualine as statusline
     'nvim-lualine/lualine.nvim',
@@ -276,6 +268,8 @@ vim.o.termguicolors = true
 -- Keymaps for better default experience
 -- See `:help vim.keymap.set()`
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set('n', '<leader>n', '<Cmd>Telescope find_files<CR>')
+vim.keymap.set('n', '<leader>b', '<Cmd>Telescope file_browser<CR>')
 
 -- Remap for dealing with word wrap
 vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
@@ -302,6 +296,7 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 -- See `:help telescope` and `:help telescope.setup()`
 require('telescope').setup {
   defaults = {
+    file_ignore_patterns = { "node_modules", "static", "fa" },
     mappings = {
       i = {
         ['<C-u>'] = false,
@@ -310,6 +305,7 @@ require('telescope').setup {
     },
   },
 }
+local current_day = os.date("%A")
 
 -- Enable telescope fzf native, if installed
 pcall(require('telescope').load_extension, 'fzf')
@@ -559,18 +555,39 @@ bufferline.setup{
   options = {
     offsets = {
         {
-            filetype = "NvimTree",
-            text = "Virginity",
             highlight = "Directory",
+            filetype = "NvimTree",
             seperator = true,
         },
     },
 }
 }
 
-require("nvim-tree").setup {}
+require("nvim-tree").setup({
+  sort = {
+    sorter = "case_sensitive",
+  },
+  view = {
+    width = 30,
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = true,
+  },
+})
 
-require("veil").setup {}
+local builtin = require("veil.builtin")
+require("veil").setup {
+  sections = {
+    builtin.sections.animated(builtin.headers.frames_nvim, {
+      hl = { fg = "#EE99C2" },
+    }),
+  },
+  startup = true,
+  listed = true
+}
 
 -- [[ Configure nvim-cmp ]]
 -- See `:help cmp`

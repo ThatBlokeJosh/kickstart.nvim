@@ -8,7 +8,7 @@ return {
     "nvim-lua/plenary.nvim",
     "nvim-telescope/telescope-file-browser.nvim"
   },
-  config = true,
+  config = false,
   -- or configure with:
   -- opts = { ... }
 }
