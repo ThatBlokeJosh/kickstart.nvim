@@ -33,19 +33,31 @@ local conditions = {
   end,
 }
 
+local bubbles = {
+  normal = {
+    a = { fg = colors.black, bg = colors.violet },
+    b = { fg = colors.white, bg = colors.grey },
+    c = { fg = colors.white },
+  },
+
+  insert = { a = { fg = colors.black, bg = colors.blue } },
+  visual = { a = { fg = colors.black, bg = colors.cyan } },
+  replace = { a = { fg = colors.black, bg = colors.red } },
+
+  inactive = {
+    a = { fg = colors.white, bg = colors.black },
+    b = { fg = colors.white, bg = colors.black },
+    c = { fg = colors.white },
+  },
+}
+
 -- Config
 local config = {
   options = {
     -- Disable sections and component separators
     component_separators = '',
     section_separators = '',
-    theme = {
-      -- We are going to use lualine_c an lualine_x as left and
-      -- right section. Both are highlighted by c theme .  So we
-      -- are just setting default looks o statusline
-      normal = { c = { fg = colors.fg, bg = colors.bg } },
-      inactive = { c = { fg = colors.fg, bg = colors.bg } },
-    },
+    theme = bubbles,
   },
   sections = {
     -- these are to remove the defaults
@@ -81,7 +93,7 @@ end
 ins_left {
   -- mode component
   function()
-    return ''
+    return ' '
   end,
   color = function()
     -- auto change color according to neovims mode
@@ -107,9 +119,9 @@ ins_left {
       ['!'] = colors.red,
       t = colors.red,
     }
-    return { fg = mode_color[vim.fn.mode()], bg = mode_color[vim.fn.mode()]}
+    return { fg = mode_color[vim.fn.mode()]}
   end,
-  padding = { right = 10 },
+  padding = { left = 1 },
 }
 
 ins_right {
@@ -153,7 +165,7 @@ ins_right {
     return msg
   end,
   icon = ' LSP:',
-  color = { fg = '#ffffff', gui = 'bold', bg = colors.magenta },
+  color = { fg = colors.magenta, gui = 'bold' },
 }
 
 -- Now don't forget to initialize lualine
